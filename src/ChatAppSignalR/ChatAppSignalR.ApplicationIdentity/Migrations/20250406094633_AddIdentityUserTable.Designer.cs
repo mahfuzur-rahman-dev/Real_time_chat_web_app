@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatAppSignalR.ApplicationIdentity.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20250406081155_AddIdentityUserTable")]
+    [Migration("20250406094633_AddIdentityUserTable")]
     partial class AddIdentityUserTable
     {
         /// <inheritdoc />
@@ -46,6 +46,10 @@ namespace ChatAppSignalR.ApplicationIdentity.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
