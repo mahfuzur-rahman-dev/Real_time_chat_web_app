@@ -1,7 +1,11 @@
+using ChatAppSignalR.Web.Extension;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDatabaeConfig(builder.Configuration);
 
 var app = builder.Build();
 

@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAppSignalR.Web", "ChatAppSignalR.Web\ChatAppSignalR.Web.csproj", "{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAppSignalR.DataAccess", "ChatAppSignalR.DataAccess\ChatAppSignalR.DataAccess.csproj", "{BD56563A-8730-49A1-99BA-D2B92FC05544}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAppSignalR.Models", "ChatAppSignalR.Models\ChatAppSignalR.Models.csproj", "{666381F1-5767-42DA-8F54-FD10C223BA87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAppSignalR.ApplicationIdentity", "ChatAppSignalR.ApplicationIdentity\ChatAppSignalR.ApplicationIdentity.csproj", "{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD56563A-8730-49A1-99BA-D2B92FC05544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD56563A-8730-49A1-99BA-D2B92FC05544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD56563A-8730-49A1-99BA-D2B92FC05544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD56563A-8730-49A1-99BA-D2B92FC05544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{666381F1-5767-42DA-8F54-FD10C223BA87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{666381F1-5767-42DA-8F54-FD10C223BA87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{666381F1-5767-42DA-8F54-FD10C223BA87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{666381F1-5767-42DA-8F54-FD10C223BA87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
