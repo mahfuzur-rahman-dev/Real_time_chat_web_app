@@ -22,12 +22,14 @@ namespace ChatAppSignalR.Web.ViewModels
     {
         [Required(ErrorMessage = "First name is required.")]
         [StringLength(10,MinimumLength =3)]
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
 
 
         [Required(ErrorMessage = "Last name is required.")]
         [StringLength(10, MinimumLength = 3)]
-        public string LasttName { get; set; }
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
 
 
         [Required(ErrorMessage = "Email is required.")]
