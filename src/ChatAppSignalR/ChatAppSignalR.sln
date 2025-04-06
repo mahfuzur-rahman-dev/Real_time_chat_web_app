@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAppSignalR.Web", "ChatAppSignalR.Web\ChatAppSignalR.Web.csproj", "{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD3E8858-CC42-49A3-BBE7-903FAA33EBB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6EDC4668-569C-4F6A-B43F-13A18F590E3A}
+	EndGlobalSection
+EndGlobal
