@@ -1,3 +1,4 @@
+using ChatAppSignalR.DataAccess.Others;
 using ChatAppSignalR.Web.Extension;
 
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDatabaeConfig(builder.Configuration);
 builder.Services.AddIdentityConfiguration();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -29,4 +31,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapHub<NotificationHub>("/callNotificationHub");
 app.Run();

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChatAppSignalR.ApplicationIdentity\ChatAppSignalR.ApplicationIdentity.csproj" />
+    <ProjectReference Include="..\ChatAppSignalR.DataAccess\ChatAppSignalR.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
