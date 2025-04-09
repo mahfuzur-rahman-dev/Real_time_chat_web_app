@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChatAppSignalR.ApplicationIdentity\ChatAppSignalR.ApplicationIdentity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Entities\" />
   </ItemGroup>
 

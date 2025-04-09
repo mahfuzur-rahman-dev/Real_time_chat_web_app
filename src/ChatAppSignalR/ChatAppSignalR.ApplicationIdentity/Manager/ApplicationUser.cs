@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChatAppSignalR.ApplicationIdentity.Others;
 using Microsoft.AspNetCore.Identity;
 
 namespace ChatAppSignalR.ApplicationIdentity.Manager
@@ -12,5 +13,7 @@ namespace ChatAppSignalR.ApplicationIdentity.Manager
         public string FullName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
+        public ICollection<UserConnection> Connections { get; set; }
+        public ICollection<UserConnection> ConnectedToMe { get; set; }
     }
 }
