@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ChatAppSignalR.ApplicationIdentity.Manager;
 using ChatAppSignalR.ApplicationIdentity.Others;
+using ChatAppSignalR.Models.Entities;
+using ChatAppSignalR.Models.Others;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +21,16 @@ namespace ChatAppSignalR.ApplicationIdentity.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<User>()
+                .HasKey(uc => uc.IdentityUserId);
+
+            builder.Entity<User>()
+                .HasOne<ApplicationUser>()
+                .WithOne(au => au.User)
+                .HasForeignKey<User>(u => u.IdentityUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             builder.Entity<UserConnection>()
                 .HasKey(uc => uc.Id);
@@ -35,5 +47,7 @@ namespace ChatAppSignalR.ApplicationIdentity.Context
                 .HasForeignKey(uc => uc.ConnectedUserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
+
+        public DbSet<User> Users { get; set; }
     }
 }

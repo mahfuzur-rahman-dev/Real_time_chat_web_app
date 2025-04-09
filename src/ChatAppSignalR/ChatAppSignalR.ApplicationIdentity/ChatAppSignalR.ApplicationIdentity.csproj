@@ -13,5 +13,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Others\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChatAppSignalR.Models\ChatAppSignalR.Models.csproj" />
+  </ItemGroup>
+
 
 </Project>

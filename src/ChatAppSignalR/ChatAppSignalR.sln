@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAppSignalR.Models", "Ch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAppSignalR.ApplicationIdentity", "ChatAppSignalR.ApplicationIdentity\ChatAppSignalR.ApplicationIdentity.csproj", "{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatAppSignalR.Service", "ChatAppSignalR.Service\ChatAppSignalR.Service.csproj", "{544B0D98-25C3-49C4-B598-BFD8D238B256}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B785ED47-2E5E-4E8E-BACC-5BE0DE29709C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{544B0D98-25C3-49C4-B598-BFD8D238B256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{544B0D98-25C3-49C4-B598-BFD8D238B256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{544B0D98-25C3-49C4-B598-BFD8D238B256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{544B0D98-25C3-49C4-B598-BFD8D238B256}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
