@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChatAppSignalR.ApplicationIdentity\ChatAppSignalR.ApplicationIdentity.csproj" />
+  </ItemGroup>
+
 </Project>

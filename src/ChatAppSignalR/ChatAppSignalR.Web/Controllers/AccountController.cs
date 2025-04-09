@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ChatAppSignalR.ApplicationIdentity.Manager;
+using ChatAppSignalR.Models.Entities;
+using ChatAppSignalR.Service.features.IServices;
 using ChatAppSignalR.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +13,13 @@ namespace ChatAppSignalR.Web.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserManagementService _userManagementService;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IUserManagementService userManagementService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _userManagementService = userManagementService;
         }
 
         public IActionResult Login()
@@ -74,7 +78,7 @@ namespace ChatAppSignalR.Web.Controllers
             {
                 ApplicationUser user = new()
                 {
-                    FullName = model.FirstName + model.LastName,
+                    FullName = model.FirstName+" " + model.LastName,
                     CreatedDate = DateTime.Now,
                     Email = model.Email,
                     NormalizedEmail = model.Email.ToUpper(),
@@ -85,7 +89,25 @@ namespace ChatAppSignalR.Web.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Login", "Account");
+                    try
+                    {
+                        await _userManagementService.AddUserAsync(new User
+                        {
+                            IdentityUserId = user.Id,
+                            FullName = user.FullName
+                        });
+
+                        return RedirectToAction("Login", "Account");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Rollback Identity user creation if custom user add failed
+                        await _userManager.DeleteAsync(user);
+
+                        // Optional: log the error
+                        ModelState.AddModelError("", "Account creation failed. Please try again.");
+                        return View(model);
+                    }
                 }
                 else
                 {

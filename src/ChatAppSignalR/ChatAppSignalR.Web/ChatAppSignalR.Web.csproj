@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ChatAppSignalR.ApplicationIdentity\ChatAppSignalR.ApplicationIdentity.csproj" />
     <ProjectReference Include="..\ChatAppSignalR.DataAccess\ChatAppSignalR.DataAccess.csproj" />
+    <ProjectReference Include="..\ChatAppSignalR.Service\ChatAppSignalR.Service.csproj" />
   </ItemGroup>
 
 </Project>

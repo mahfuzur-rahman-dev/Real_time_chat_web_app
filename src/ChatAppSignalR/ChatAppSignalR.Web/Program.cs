@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDatabaeConfig(builder.Configuration);
 builder.Services.AddIdentityConfiguration();
+builder.Services.AddServiceForDI();
 builder.Services.AddSignalR();
 
 var app = builder.Build();

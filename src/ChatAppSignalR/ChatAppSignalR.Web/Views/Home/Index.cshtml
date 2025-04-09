@@ -820,19 +820,19 @@
 											<button class="nav-link active" id="Open-tab" data-bs-toggle="tab" data-bs-target="#Open" type="button" role="tab" aria-controls="Open" aria-selected="true">Firends</button>
 										</li>
 										<li class="nav-item" role="presentation">
-											<button class="nav-link" id="Closed-tab" data-bs-toggle="tab" data-bs-target="#Closed" type="button" role="tab" aria-controls="Closed" aria-selected="false">Add new</button>
+											<button class="nav-link" id="Closed-tab" data-bs-toggle="tab" onclick="fetchUsers()" data-bs-target="#Closed" type="button" role="tab" aria-controls="Closed" aria-selected="false">Add new</button>
 										</li>
 									</ul>
 								</div>
 
 								<div class="modal-body">
 									<!-- chat-list -->
-									<div class="chat-lists">
+									<div  class="chat-lists">
 										<div class="tab-content" id="myTabContent">
 											<div class="tab-pane fade show active" id="Open" role="tabpanel" aria-labelledby="Open-tab">
 												<!-- chat-list -->
-												<div class="chat-list">
-													<a href="#" class="d-flex align-items-center">
+												<div id="allFriends" class="chat-list">
+													@* <a href="#" class="d-flex align-items-center">
 														<div class="flex-shrink-0">
 															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
 															<span class="active"></span>
@@ -841,143 +841,8 @@
 															<h3>Mehedi Hasan</h3>
 															<p>front end developer</p>
 														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Ryhan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Malek Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Sadik Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Bulu </h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Maria SK</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Dipa Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Jhon Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Tumpa Moni</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Payel Akter</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Baby Akter</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Zuwel Rana</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Habib </h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Jalal Ahmed</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Hasan Ali</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Mehedi Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-
+													</a> *@
+													
 
 												</div>
 												<!-- chat-list -->
@@ -985,153 +850,8 @@
 											<div class="tab-pane fade" id="Closed" role="tabpanel" aria-labelledby="Closed-tab">
 
 												<!-- chat-list -->
-												<div class="chat-list">
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-															<span class="active"></span>
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Mehedi Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Ryhan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Malek Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Sadik Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Bulu </h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Maria SK</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Dipa Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Jhon Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Tumpa Moni</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Payel Akter</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Baby Akter</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Zuwel Rana</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Habib </h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Jalal Ahmed</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Hasan Ali</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-													<a href="#" class="d-flex align-items-center">
-														<div class="flex-shrink-0">
-															<img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/user.png" alt="user img">
-														</div>
-														<div class="flex-grow-1 ms-3">
-															<h3>Mehedi Hasan</h3>
-															<p>front end developer</p>
-														</div>
-													</a>
-
+												<div id="all" class="chat-list">
+													
 												</div>
 												<!-- chat-list -->
 											</div>
@@ -1268,5 +988,63 @@
 
 		});
 	</script>
+
+
+
+
+
+
+
+	<script>
+		$(document).ready(function () {
+			function fetchUsers() {
+				$.ajax({
+					url: '@Url.Action("Privacy", "Home")', // Your controller action
+					type: 'GET',
+					dataType: 'json',
+					success: function (data) {
+						console.log(data);
+						$('#all').empty(); // Clear previous data
+
+						if (data.length > 0) {
+							data.forEach(function (user) {
+								let chatItem = `
+									<a href="#" class="d-flex align-items-center">
+										<div class="flex-shrink-0">
+											<img class="img-fluid" src="${user.imageUrl || 'https://mehedihtml.com/chatbox/assets/img/user.png'}" alt="user img">
+											<span class="active"></span>
+										</div>
+										<div class="flex-grow-1 ms-3">
+											<h3>${user.userName}</h3>
+											<p>${user.email}</p>
+										</div>
+									</a>
+								`;
+								$('#all').append(chatItem);
+							});
+						} else {
+							$('#all').append('<p>No users found.</p>');
+						}
+					},
+					error: function (xhr, status, error) {
+						console.error('Error fetching users:', error);
+						$('#all').append('<p>Error loading users.</p>');
+					}
+				});
+			}
+
+			// Listen for tab shown event
+			$('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+				const target = $(e.target).attr("href"); // e.g., #Closed
+				if (target === "#Closed") {
+					fetchUsers(); // Call only when "Closed" tab is shown
+				}
+			});
+		});
+	</script>
+
+
+
+
 }
 

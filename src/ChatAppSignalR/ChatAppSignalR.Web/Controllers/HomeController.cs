@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using ChatAppSignalR.DataAccess.Others;
 using ChatAppSignalR.Models.Others;
+using ChatAppSignalR.Service.features.IServices;
+using ChatAppSignalR.Models.Entities;
 
 namespace ChatAppSignalR.Web.Controllers;
 
@@ -12,11 +14,13 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IHubContext<NotificationHub> _hubContext;
+    private readonly IUserManagementService _userManagementService;
 
-    public HomeController(ILogger<HomeController> logger, IHubContext<NotificationHub> hubContext)
+    public HomeController(ILogger<HomeController> logger, IHubContext<NotificationHub> hubContext, IUserManagementService userManagementService)
     {
         _logger = logger;
         _hubContext = hubContext;
+        _userManagementService = userManagementService;
     }
 
     [Authorize]
@@ -37,6 +41,24 @@ public class HomeController : Controller
     {
         return View();
     }
+
+
+    public IActionResult GetAllUserAsync()  // Changed return type to JsonResult
+    {
+        //try
+        //{
+        //    var users = await _userManagementService.GetAllUserAsync();
+        //    return Json(users);  // Explicitly return as JSON
+        //}
+        //catch (Exception ex)
+        //{
+        //    _logger.LogError(ex, "Error fetching users");
+        //    return Json(new List<User>());  // Return empty list in case of error
+        //}
+
+        return Json("");
+    }
+
 
     [Authorize]
     [HttpPost]
