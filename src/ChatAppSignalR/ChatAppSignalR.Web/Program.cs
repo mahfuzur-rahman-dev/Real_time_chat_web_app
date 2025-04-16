@@ -1,4 +1,4 @@
-using ChatAppSignalR.DataAccess.Others;
+using ChatAppSignalR.Service.SignalHub;
 using ChatAppSignalR.Web.Extension;
 
 
@@ -25,7 +25,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

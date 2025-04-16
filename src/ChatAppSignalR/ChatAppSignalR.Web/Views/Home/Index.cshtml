@@ -999,7 +999,7 @@
 		$(document).ready(function () {
 			function fetchUsers() {
 				$.ajax({
-					url: '@Url.Action("Privacy", "Home")', // Your controller action
+					url: '@Url.Action("GetAllUser", "Home")', // Your controller action
 					type: 'GET',
 					dataType: 'json',
 					success: function (data) {

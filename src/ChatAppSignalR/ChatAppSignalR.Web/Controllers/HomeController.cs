@@ -3,24 +3,25 @@ using Microsoft.AspNetCore.Mvc;
 using ChatAppSignalR.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using ChatAppSignalR.DataAccess.Others;
 using ChatAppSignalR.Models.Others;
 using ChatAppSignalR.Service.features.IServices;
 using ChatAppSignalR.Models.Entities;
+using System.Threading.Tasks;
 
 namespace ChatAppSignalR.Web.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly IHubContext<NotificationHub> _hubContext;
     private readonly IUserManagementService _userManagementService;
+    private readonly INotificationManagementService _notificationManagementService;
 
-    public HomeController(ILogger<HomeController> logger, IHubContext<NotificationHub> hubContext, IUserManagementService userManagementService)
+
+    public HomeController(ILogger<HomeController> logger, IUserManagementService userManagementService, INotificationManagementService notificationManagementService)
     {
         _logger = logger;
-        _hubContext = hubContext;
         _userManagementService = userManagementService;
+        _notificationManagementService = notificationManagementService;
     }
 
     [Authorize]
@@ -30,7 +31,7 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    public IActionResult Privacy()
+    public async Task<IActionResult> Privacy()
     {
         return View();
     }
@@ -42,21 +43,20 @@ public class HomeController : Controller
         return View();
     }
 
-
-    public IActionResult GetAllUserAsync()  // Changed return type to JsonResult
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> GetAllUser()  // Changed return type to JsonResult
     {
-        //try
-        //{
-        //    var users = await _userManagementService.GetAllUserAsync();
-        //    return Json(users);  // Explicitly return as JSON
-        //}
-        //catch (Exception ex)
-        //{
-        //    _logger.LogError(ex, "Error fetching users");
-        //    return Json(new List<User>());  // Return empty list in case of error
-        //}
-
-        return Json("");
+        try
+        {
+            var users = await _userManagementService.GetAllUserAsync();
+            return Json(users);  // Explicitly return as JSON
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching users");
+            return Json(new List<User>());  // Return empty list in case of error
+        }
     }
 
 
@@ -65,7 +65,10 @@ public class HomeController : Controller
     public async Task<IActionResult> SendNotification(string title, string message, string userId)
     {
         var notification = new Notification { Title = title, UserId= userId, Message = message };
-        await _hubContext.Clients.All.SendAsync("SendNotification", notification);
+
+        await _notificationManagementService.NotifyAllAsync();
+
+
         return RedirectToAction(nameof(SendNotification));
     }
 

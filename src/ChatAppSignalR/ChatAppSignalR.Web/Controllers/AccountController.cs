@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using ChatAppSignalR.ApplicationIdentity.Manager;
 using ChatAppSignalR.Models.Entities;
 using ChatAppSignalR.Service.features.IServices;
@@ -91,6 +92,33 @@ namespace ChatAppSignalR.Web.Controllers
                 {
                     try
                     {
+                        // Add claims
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.FullName),
+                            new Claim(ClaimTypes.Email, user.Email),
+                            new Claim("CreatedDate", user.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss"))
+                            // Add more custom claims here if needed
+                        };
+
+                        foreach (var claim in claims)
+                        {
+                            var claimResult = await _userManager.AddClaimAsync(user, claim);
+                            if (!claimResult.Succeeded)
+                            {
+                                // Handle failure to add claim if necessary
+                                foreach (var error in claimResult.Errors)
+                                {
+                                    ModelState.AddModelError("", $"Claim error: {error.Description}");
+                                }
+
+                                // Rollback
+                                await _userManager.DeleteAsync(user);
+                                return View(model);
+                            }
+                        }
+
+                        // Save custom user data to your service
                         await _userManagementService.AddUserAsync(new User
                         {
                             IdentityUserId = user.Id,
@@ -101,14 +129,12 @@ namespace ChatAppSignalR.Web.Controllers
                     }
                     catch (Exception ex)
                     {
-                        // Rollback Identity user creation if custom user add failed
                         await _userManager.DeleteAsync(user);
-
-                        // Optional: log the error
                         ModelState.AddModelError("", "Account creation failed. Please try again.");
                         return View(model);
                     }
                 }
+
                 else
                 {
                     foreach (var error in result.Errors)
