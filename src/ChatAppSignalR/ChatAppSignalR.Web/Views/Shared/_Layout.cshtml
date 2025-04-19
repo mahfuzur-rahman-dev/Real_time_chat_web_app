@@ -9,22 +9,44 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="bg-light">
+    @{
+        var sweetAlertMessage = TempData["sweetAlertMessage"] as string;
+        var sweetAlertIcon = TempData["sweetAlertIcon"] as string;
+    }
 
     @RenderBody()
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Create connection to your SignalR hub
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/callNotificationHub")
-            .build();
+        function sweetAlert(iconMessage,aleartMessage){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: iconMessage,
+                title: aleartMessage
+            });
+        }
+    </script>
 
-        // Start the connection
-        connection.start().catch(function (err) {
-            return console.error(err.toString());
-        });
+    <script>
+        @if (!string.IsNullOrEmpty(sweetAlertMessage) && !string.IsNullOrEmpty(sweetAlertIcon))
+        {
+            <text>
+                        sweetAlert("@sweetAlertIcon", "@sweetAlertMessage");
+            </text>
+        }
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

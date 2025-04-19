@@ -59,9 +59,14 @@ namespace ChatAppSignalR.Web.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                var userId = user.Id;
+                TempData["sweetAlertMessage"] = "Signed in successfully";
+                TempData["sweetAlertIcon"] = "success";
+                return RedirectToAction("Index", "Home", new { userId = userId });
             }
 
+            TempData["sweetAlertMessage"] = "Login failed. Please check your credentials and try again";
+            TempData["sweetAlertIcon"] = "error";
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(model);
         }
@@ -124,12 +129,15 @@ namespace ChatAppSignalR.Web.Controllers
                             IdentityUserId = user.Id,
                             FullName = user.FullName
                         });
-
+                        TempData["sweetAlertMessage"] = "Registration completed successfully";
+                        TempData["sweetAlertIcon"] = "success";
                         return RedirectToAction("Login", "Account");
                     }
                     catch (Exception ex)
                     {
                         await _userManager.DeleteAsync(user);
+                        TempData["sweetAlertMessage"] = "Registration faild. Please try again with correct information";
+                        TempData["sweetAlertIcon"] = "error";
                         ModelState.AddModelError("", "Account creation failed. Please try again.");
                         return View(model);
                     }
@@ -170,6 +178,8 @@ namespace ChatAppSignalR.Web.Controllers
                 }
                 else
                 {
+                    TempData["sweetAlertMessage"] = "Try this";
+                    TempData["sweetAlertIcon"] = "success";
                     return RedirectToAction("ChangePassword", "Account", new { email = user.Email });
                 }
 
@@ -199,6 +209,8 @@ namespace ChatAppSignalR.Web.Controllers
                     if (result.Succeeded)
                     {
                         result = await _userManager.AddPasswordAsync(user, model.NewPassword);
+                        TempData["sweetAlertMessage"] = "Password changed successfully. Try login with new password";
+                        TempData["sweetAlertIcon"] = "success";
                         return RedirectToAction("Login", "Account");
                     }
                     else
@@ -209,17 +221,23 @@ namespace ChatAppSignalR.Web.Controllers
                             ModelState.AddModelError("", error.Description);
                         }
 
+                        TempData["sweetAlertMessage"] = "Error in updating your password. Try again";
+                        TempData["sweetAlertIcon"] = "error";
                         return View(model);
                     }
                 }
                 else
                 {
                     ModelState.AddModelError("", "Email not found!");
+                    TempData["sweetAlertMessage"] = "Somrthing went wrong. User not found";
+                    TempData["sweetAlertIcon"] = "error";
                     return View(model);
                 }
             }
             else
             {
+                TempData["sweetAlertMessage"] = "Something went wrong. Try again";
+                TempData["sweetAlertIcon"] = "error";
                 ModelState.AddModelError("", "Something went wrong. try again.");
                 return View(model);
             }
@@ -229,6 +247,8 @@ namespace ChatAppSignalR.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            TempData["sweetAlertMessage"] = "Logged out successfully";
+            TempData["sweetAlertIcon"] = "success";
             return RedirectToAction("Index", "Home");
         }
 

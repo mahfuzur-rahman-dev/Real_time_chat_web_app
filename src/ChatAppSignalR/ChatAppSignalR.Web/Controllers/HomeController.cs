@@ -25,39 +25,26 @@ public class HomeController : Controller
     }
 
     [Authorize]
-    public IActionResult Index()
+    public async Task<IActionResult> Index(string userId)
+    {
+        if(string.IsNullOrEmpty(userId))
+            return RedirectToAction("Logout", "Account");
+
+        var user = await _userManagementService.GetUserAsync(userId);
+        if(user is null)
+            return RedirectToAction("Logout", "Account");
+            
+        return View(user);
+    }
+
+
+
+    [Authorize]
+    public IActionResult Privacy()
     {
         return View();
     }
 
-    [Authorize]
-    public async Task<IActionResult> Privacy()
-    {
-        return View();
-    }
-
-
-    [Authorize]
-    public IActionResult SendNotification()
-    {
-        return View();
-    }
-
-    [Authorize]
-    [HttpGet]
-    public async Task<IActionResult> GetAllUser()  // Changed return type to JsonResult
-    {
-        try
-        {
-            var users = await _userManagementService.GetAllUserAsync();
-            return Json(users);  // Explicitly return as JSON
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error fetching users");
-            return Json(new List<User>());  // Return empty list in case of error
-        }
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

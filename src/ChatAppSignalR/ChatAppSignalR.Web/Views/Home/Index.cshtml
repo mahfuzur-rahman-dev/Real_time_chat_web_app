@@ -1,6 +1,10 @@
-﻿@{
-	ViewData["Title"] = "Home Page";
+﻿@using ChatAppSignalR.Models.Entities
+@model User
+
+@{
+    ViewData["Title"] = "Home Page";
 }
+
 
 @section Styles{
     <style>
@@ -81,7 +85,7 @@
                 <div class="d-flex align-items-center">
                     <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="Profile">
                     <div class="flex-grow-1">
-                        <h6 class="mb-0">Your Name</h6>
+                        <h6 class="mb-0">@Model.FullName</h6>
                         <small class="text-muted">Online</small>
                     </div>
                     <div class="dropdown">
@@ -92,7 +96,7 @@
                             <li><a class="dropdown-item" href="#">Profile</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                            <li><a class="dropdown-item" asp-action="Logout" asp-controller="Account" >Logout</a></li>
                         </ul>
                     </div>
                 </div>
@@ -222,6 +226,7 @@
 
    
  @section Scripts{
+
     <script>
         // Ensure the app doesn't go under the taskbar
         function adjustForTaskbar() {
