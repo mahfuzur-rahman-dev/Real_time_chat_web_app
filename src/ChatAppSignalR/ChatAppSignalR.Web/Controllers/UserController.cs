@@ -18,18 +18,19 @@ namespace ChatAppSignalR.Web.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<JsonResult> GetAllUser()
+        public async Task<IActionResult> GetAllUser()
         {
             try
             {
                 var users = await _userManagementService.GetAllUserAsync();
-                return Json(users);
+                return Ok(users); // 200 with JSON content
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error fetching users");
-                return Json(new List<User>());
+                return StatusCode(500, new { message = "Internal Server Error", details = ex.Message });
             }
         }
+
     }
 }

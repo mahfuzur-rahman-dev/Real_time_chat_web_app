@@ -79,7 +79,7 @@
             <!-- Profile Section -->
             <div class="p-3 border-bottom">
                 <div class="d-flex align-items-center">
-                    <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="Profile">
+                    <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="Profile">
                     <div class="flex-grow-1">
                         <h6 class="mb-0">Your Name</h6>
                         <small class="text-muted">Online</small>
@@ -111,97 +111,39 @@
             <!-- Tabs -->
             <ul class="nav nav-tabs nav-fill" id="userTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="all-users-tab" data-bs-toggle="tab" data-bs-target="#all-users" type="button" role="tab" aria-controls="all-users" aria-selected="true">All Users</button>
+                    <button class="nav-link active" id="all-users-tab" data-bs-toggle="tab" data-bs-target="#all-users" type="button" role="tab" aria-controls="all-users" aria-selected="true">Friends</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button" role="tab" aria-controls="friends" aria-selected="false">Friends</button>
+                    <button onclick="fetchAllUser()" class="nav-link" id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button" role="tab" aria-controls="friends" aria-selected="false">All users</button>
                 </li>
             </ul>
 
             <!-- Tab Content -->
             <div class="tab-content flex-grow-1 user-list-scroll" id="userTabsContent">
-                <!-- All Users -->
+               <!-- Friends -->
                 <div class="tab-pane fade show active" id="all-users" role="tabpanel" aria-labelledby="all-users-tab">
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
+                    <div  class="list-group list-group-flush">
+
+                       @*  <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
                             <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
+                                <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0">John Doe</h6>
                                     <small class="text-muted">Last message preview...</small>
                                 </div>
                                 <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
                             </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'Jane Smith')">
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-0">Jane Smith</h6>
-                                    <small class="text-muted">Last message preview...</small>
-                                </div>
-                                <div class="bg-secondary rounded-circle" style="width: 10px; height: 10px;"></div>
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'Mike Johnson')">
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-0">Mike Johnson</h6>
-                                    <small class="text-muted">Last message preview...</small>
-                                </div>
-                                <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'Sarah Williams')">
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-0">Sarah Williams</h6>
-                                    <small class="text-muted">Last message preview...</small>
-                                </div>
-                                <div class="bg-secondary rounded-circle" style="width: 10px; height: 10px;"></div>
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'David Brown')">
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-0">David Brown</h6>
-                                    <small class="text-muted">Last message preview...</small>
-                                </div>
-                                <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'Emma Wilson')">
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-0">Emma Wilson</h6>
-                                    <small class="text-muted">Last message preview...</small>
-                                </div>
-                                <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'Daniel Lee')">
-                            <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-0">Daniel Lee</h6>
-                                    <small class="text-muted">Last message preview...</small>
-                                </div>
-                                <div class="bg-secondary rounded-circle" style="width: 10px; height: 10px;"></div>
-                            </div>
-                        </a>
+                        </a> *@
+                        
                     </div>
                 </div>
 
-                <!-- Friends -->
-                <div class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="friends-tab">
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
+                <!-- All Users -->
+                <div  class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="friends-tab">
+                    <div id="addAllUser" class="list-group list-group-flush">
+                        @* <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
                             <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
+                                <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0">John Doe</h6>
                                     <small class="text-muted">Last message preview...</small>
@@ -211,14 +153,14 @@
                         </a>
                         <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'Jane Smith')">
                             <div class="d-flex align-items-center">
-                                <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="User">
+                                <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-0">Jane Smith</h6>
                                     <small class="text-muted">Last message preview...</small>
                                 </div>
                                 <div class="bg-secondary rounded-circle" style="width: 10px; height: 10px;"></div>
                             </div>
-                        </a>
+                        </a> *@
                     </div>
                 </div>
             </div>
@@ -231,7 +173,7 @@
                 <button class="btn btn-sm btn-light me-2 d-md-none" onclick="backToUserList()">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-                <img src="/api/placeholder/45/45" class="rounded-circle me-2" alt="User">
+                <img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
                 <div class="flex-grow-1">
                     <h5 class="mb-0" id="chatUserName">John Doe</h5>
                     <small class="text-muted">Online</small>
@@ -247,42 +189,26 @@
             </div>
 
             <!-- Chat Messages -->
-            <div class="p-3 bg-light flex-grow-1 messages-container d-flex flex-column">
+            <div id="notifications" class="p-3 bg-light flex-grow-1 messages-container d-flex flex-column">
                 <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
                     Hi there! How are you doing today?
                 </div>
-                <div class="bg-primary text-white rounded-3 p-3 mb-3 align-self-end" style="max-width: 75%;">
-                    I'm doing great, thanks for asking! How about you?
-                </div>
-                <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
-                    Pretty good! Just working on some new projects. Have you seen the latest updates?
-                </div>
-                <div class="bg-primary text-white rounded-3 p-3 mb-3 align-self-end" style="max-width: 75%;">
-                    Not yet, but I'm planning to check them out this afternoon. Anything interesting?
-                </div>
-                <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
-                    Yes, there are some really cool new features. I think you'll like them!
-                </div>
-                <div class="bg-primary text-white rounded-3 p-3 mb-3 align-self-end" style="max-width: 75%;">
-                    Great! I'll definitely take a look. Thanks for letting me know.
-                </div>
-                <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
-                    No problem at all. Let me know what you think after you check them out!
-                </div>
             </div>
+
 
             <!-- Chat Input -->
             <div class="p-3 border-top bg-white chat-input-container">
-                <form id="messageForm" class="d-flex">
+                <div class="d-flex" id="messageForm">
                     <button type="button" class="btn btn-light rounded-circle me-2">
                         <i class="fas fa-paperclip"></i>
                     </button>
-                    <input type="text" class="form-control me-2" placeholder="Type your message here...">
-                    <button type="submit" class="btn btn-primary rounded-circle">
+                    <input type="text" id="messageInput" class="form-control me-2" placeholder="Type your message here...">
+                    <button type="button" class="btn btn-primary rounded-circle" onclick="sendMessage()">
                         <i class="fas fa-paper-plane"></i>
                     </button>
-                </form>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -345,4 +271,104 @@
         }
     </script>
 
+    <script>
+                $(document).ready(function () {
+            $('#messageInput').on('keydown', function (event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        function fetchAllUser() {
+            $.ajax({
+                url: '/User/GetAllUser',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    const $userList = $('#addAllUser');
+                    $userList.empty();
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(function (user) {
+                            // Defensive checks in case backend returns unexpected structure
+                            const userId = user.identityUserId || 'unknown-id';
+                            const fullName = user.fullName || 'Unnamed User';
+
+                            const chatItem = `
+                                <a href="#" id="${userId}" class="list-group-item list-group-item-action" onclick="openChat(this, '${fullName.replace(/'/g, "\\'")}')">
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0">${fullName}</h6>
+                                        </div>
+                                        <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
+                                    </div>
+                                </a>
+                            `;
+                            $userList.append(chatItem);
+                        });
+                    } else {
+                        $userList.append('<p>No users found.</p>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching users:', error);
+                    $('#addAllUser').html('<p class="text-danger">Error loading users.</p>');
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+
+        function sendMessage() {
+            var message = $('#messageInput').val().trim();
+            if (message === "") return;
+
+            $.ajax({
+                url: '/Notification/SendNotificationToAll',
+                method: 'POST',
+                data: { message: message },
+                success: function (response) {
+                    $('#messageInput').val('');
+                    if (response.message !== "Success") {
+                        console.error("Server responded with error.");
+                    }
+                },
+                error: function (err) {
+                    console.error("Error sending message:", err);
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        const connection1 = new signalR.HubConnectionBuilder()
+            .withUrl("/callNotificationHub") // Your SignalR hub route
+            .build();
+
+        connection1.on("ReceiveMessage", function (notification) {
+            const chatMessage = `
+                <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
+                    ${notification}
+                </div>
+            `;
+            $('#notifications').append(chatMessage);
+            $('#notifications').scrollTop($('#notifications')[0].scrollHeight);
+        });
+
+        connection1.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+    </script>
+
  }
+
+

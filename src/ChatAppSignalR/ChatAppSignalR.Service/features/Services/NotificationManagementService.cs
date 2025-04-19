@@ -15,10 +15,10 @@ namespace ChatAppSignalR.Service.features.Services
         }
 
 
-        public async Task NotifyAllAsync()
+        public async Task NotifyAllAsync(string message)
         {
 
-            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "message sent");
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", message);
         }
 
     }

@@ -10,6 +10,6 @@ namespace ChatAppSignalR.Service.features.IServices
 {
     public interface INotificationManagementService
     {
-        Task NotifyAllAsync();
+        Task NotifyAllAsync(string message);
     }
 }
