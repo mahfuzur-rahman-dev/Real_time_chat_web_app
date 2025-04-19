@@ -59,20 +59,6 @@ public class HomeController : Controller
         }
     }
 
-
-    [Authorize]
-    [HttpPost]
-    public async Task<IActionResult> SendNotification(string title, string message, string userId)
-    {
-        var notification = new Notification { Title = title, UserId= userId, Message = message };
-
-        await _notificationManagementService.NotifyAllAsync();
-
-
-        return RedirectToAction(nameof(SendNotification));
-    }
-
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
