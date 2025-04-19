@@ -207,7 +207,7 @@
                         <i class="fas fa-paperclip"></i>
                     </button>
                     <input type="text" id="messageInput" class="form-control me-2" placeholder="Type your message here...">
-                    <button type="button" class="btn btn-primary rounded-circle" onclick="sendMessage()">
+                    <button type="button" class="btn btn-primary rounded-circle" onclick='notifyUser("41778b9e-4894-43a8-b2a4-5facca8924f3","Hello mosta")'>
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
@@ -281,7 +281,8 @@
             $('#messageInput').on('keydown', function (event) {
                 if (event.key === 'Enter' && !event.shiftKey) {
                     event.preventDefault();
-                    sendMessage();
+                    notifyUser();
+                    // sendMessage();
                 }
             });
         });
@@ -351,6 +352,32 @@
                 }
             });
         }
+
+
+        function notifyUser(reciverUserId, message) {
+            console.log("Starting notification process");
+            var message = $('#messageInput').val().trim();
+            if (message === "") return;
+            console.log("Sending message:", message);
+            $.ajax({
+                url: '/Notification/SendIndividualNotification',
+                method: 'POST',
+                data: {
+                    reciverUserId: reciverUserId,
+                    message: message
+                },
+                success: function (response) {
+                    console.log("Response received:", response);
+                    $('#messageInput').val('');
+                    if (response.message !== "Success") {
+                        console.error("Server responded with error.");
+                    }
+                },
+                error: function (err) {
+                    console.error("Error sending message:", err);
+                }
+            });
+        }
     </script>
 
 
@@ -369,8 +396,20 @@
             $('#notifications').scrollTop($('#notifications')[0].scrollHeight);
         });
 
+
+        connection1.on("SendIndividualMessage", function (notification) {
+            const chatMessage = `
+                <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
+                    ${notification}
+                </div>
+            `;
+            $('#notifications').append(chatMessage);
+            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+            $('#notifications').scrollTop($('#notifications')[0].scrollHeight);
+        });
+
         connection1.start().catch(function (err) {
-            return console.error(err.toString());
+            console.error(err.toString());
         });
     </script>
 

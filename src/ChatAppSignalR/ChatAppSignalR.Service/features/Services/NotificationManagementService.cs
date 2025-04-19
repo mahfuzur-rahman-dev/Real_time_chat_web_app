@@ -21,5 +21,9 @@ namespace ChatAppSignalR.Service.features.Services
             await _hubContext.Clients.All.SendAsync("ReceiveMessage", message);
         }
 
+        public async Task NotifySpecificUserAsync(string reciverUserId, string message)
+        {
+            await _hubContext.Clients.User(reciverUserId).SendAsync("SendIndividualMessage", message);
+        }
     }
 }

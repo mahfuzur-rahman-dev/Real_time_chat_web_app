@@ -38,5 +38,30 @@ namespace ChatAppSignalR.Web.Controllers
             }
         }
 
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SendIndividualNotification(string reciverUserId,string message)
+        {
+
+            if (message is null || message.IsNullOrEmpty())
+                return BadRequest(new { message = "Message cannot be null or empty" });
+
+            if (reciverUserId is null || reciverUserId.IsNullOrEmpty())
+                return BadRequest(new { message = "Reciever cannot be null or empty" });
+
+            try
+            {
+                var notification = new Notification { Title = "title", UserId = reciverUserId, Message = message };
+                await _notificationManagementService.NotifySpecificUserAsync(reciverUserId,message);
+                return Ok(new { message = "Success" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending message");
+                return StatusCode(500, new { message = "Internal Server Error", details = ex.Message });
+            }
+        }
+
     }
 }

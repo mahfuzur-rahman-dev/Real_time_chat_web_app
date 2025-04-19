@@ -11,5 +11,6 @@ namespace ChatAppSignalR.Service.features.IServices
     public interface INotificationManagementService
     {
         Task NotifyAllAsync(string message);
+        Task NotifySpecificUserAsync(string reciverUserId, string message);
     }
 }
