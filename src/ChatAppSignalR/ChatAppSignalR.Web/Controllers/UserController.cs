@@ -1,4 +1,5 @@
-﻿using ChatAppSignalR.Models.Entities;
+﻿using System.Security.Claims;
+using ChatAppSignalR.Models.Entities;
 using ChatAppSignalR.Service.features.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,28 @@ namespace ChatAppSignalR.Web.Controllers
         {
             try
             {
+                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var users = await _userManagementService.GetAllUserAsync();
-                return Ok(users); // 200 with JSON content
+                var usersWithoutMe = users.Where(u => u.IdentityUserId != currentUserId).ToList();
+
+                return Ok(usersWithoutMe); // 200 with JSON content
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching users");
+                return StatusCode(500, new { message = "Internal Server Error", details = ex.Message });
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddConnection(string newConnectionUserId,string currentUserId)
+        {
+            try
+            {
+              
+                return Ok(); // 200 with JSON content
             }
             catch (Exception ex)
             {

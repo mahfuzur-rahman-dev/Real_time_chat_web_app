@@ -49,5 +49,6 @@ namespace ChatAppSignalR.ApplicationIdentity.Context
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<UserConnection> UserConnections { get; set; }
     }
 }
