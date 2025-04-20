@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChatAppSignalR.ApplicationIdentity.Manager;
-using ChatAppSignalR.ApplicationIdentity.Others;
 using ChatAppSignalR.Models.Entities;
 using ChatAppSignalR.Models.Others;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -29,22 +28,6 @@ namespace ChatAppSignalR.ApplicationIdentity.Context
                 .HasOne<ApplicationUser>()
                 .WithOne(au => au.User)
                 .HasForeignKey<User>(u => u.IdentityUserId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-
-            builder.Entity<UserConnection>()
-                .HasKey(uc => uc.Id);
-
-            builder.Entity<UserConnection>()
-                .HasOne(uc => uc.User)
-                .WithMany(u => u.Connections)
-                .HasForeignKey(uc => uc.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<UserConnection>()
-                .HasOne(uc => uc.ConnectedUser)
-                .WithMany(u => u.ConnectedToMe)
-                .HasForeignKey(uc => uc.ConnectedUserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
 

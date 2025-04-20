@@ -127,7 +127,7 @@
             <div class="tab-content flex-grow-1 user-list-scroll" id="userTabsContent">
                <!-- Friends -->
                 <div class="tab-pane fade show active" id="all-users" role="tabpanel" aria-labelledby="all-users-tab">
-                    <div  class="list-group list-group-flush">
+                    <div id="friends" class="list-group list-group-flush">
 
                        @*  <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
                             <div class="d-flex align-items-center">
@@ -336,7 +336,7 @@
 
     <script>
                 $(document).ready(function () {
-                 
+                 // fetchAllConnectedUser();
 
             $('#messageInput').on('keydown', function (event) {
                 if (event.key === 'Enter' && !event.shiftKey) {
@@ -364,6 +364,61 @@
 
         }
 
+    </script>
+
+
+    <script>
+                function fetchAllConnectedUser() {
+            // First check if jQuery is available
+            if (typeof $ === 'undefined') {
+                console.error('jQuery is not loaded. Please include jQuery in your project.');
+                return;
+            }
+
+            $.ajax({
+                url: '/UserConnection/GetConnectedUser',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    const $freindList = $('#friends');
+                    $freindList.empty();
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(function(user) {
+                            // Defensive checks for user properties
+                            const userId = user.identityUserId || 'unknown-id';
+                            const fullName = user.fullName || 'Unnamed User';
+
+                            const chatItem = `
+                                <div class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <div class="d-flex align-items-center flex-grow-1" style="cursor: pointer;"
+                                         onclick="openChat(this, '${encodeURIComponent(fullName)}', '${encodeURIComponent(userId)}')">
+                                        <img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0">${fullName}</h6>
+                                        </div>
+                                    </div>
+                                    <button class="btn rounded-circle border border-primary d-flex justify-content-center align-items-center p-0"
+                                            style="width: 30px; height: 30px; border: none;"
+                                            onclick="addNewConnection('${encodeURIComponent(userId)}', '${encodeURIComponent(fullName)}')">
+                                        <i class="fa-solid fa-plus text-primary" style="font-size: 12px;"></i>
+                                    </button>
+                                </div>
+                            `;
+                            $freindList.append(chatItem);
+                        });
+                    } else {
+                        $freindList.append('<p>No users found.</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching users:', error);
+                    console.log('Status code:', xhr.status);
+                    console.log('Response text:', xhr.responseText);
+                    $('#friends').html('<p class="text-danger">Error loading users. Please try again later.</p>');
+                }
+            });
+        }
     </script>
 
 
@@ -512,7 +567,7 @@
             if (fullName === "" || newConnectionUserId === "") return;
 
             $.ajax({
-                url: '/User/AddConnection',
+                url: '/UserConnection/AddConnection',
                 method: 'POST',
                 data: {
                     newConnectionUserId : newConnectionUserId,

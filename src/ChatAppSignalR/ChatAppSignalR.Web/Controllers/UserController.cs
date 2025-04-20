@@ -23,7 +23,10 @@ namespace ChatAppSignalR.Web.Controllers
         {
             try
             {
-                var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var currentUserId = await GetCurrentUserId();
+                if (string.IsNullOrEmpty(currentUserId))
+                    return RedirectToAction("Login", "Account"); 
+
                 var users = await _userManagementService.GetAllUserAsync();
                 var usersWithoutMe = users.Where(u => u.IdentityUserId != currentUserId).ToList();
 
@@ -38,18 +41,17 @@ namespace ChatAppSignalR.Web.Controllers
 
 
         [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AddConnection(string newConnectionUserId,string currentUserId)
+        [HttpGet]
+        public async Task<string> GetCurrentUserId()
         {
             try
             {
-              
-                return Ok(); // 200 with JSON content
+                return User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error fetching users");
-                return StatusCode(500, new { message = "Internal Server Error", details = ex.Message });
+                _logger.LogError(ex, "Error fetching user ID");
+                return "Internal Server Error";
             }
         }
 

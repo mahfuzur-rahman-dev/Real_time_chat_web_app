@@ -20,6 +20,7 @@ namespace ChatAppSignalR.Web.Extension
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<INotificationManagementService,NotificationManagementService>();
+            services.AddScoped<IUserConnectionManagementService, UserConnectionManagementService>();
 
             return services;
         }

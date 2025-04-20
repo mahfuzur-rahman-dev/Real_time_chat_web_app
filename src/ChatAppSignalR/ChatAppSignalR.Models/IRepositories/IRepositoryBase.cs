@@ -11,7 +11,7 @@ namespace ChatAppSignalR.Models.IRepositories
         where TEntity : class
         where TKey : IComparable
     {
-        Task<IList<TEntity>> GetAllAsync();
+        Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null);
         Task<TEntity> GetByIdAsync(TKey id);
         Task<int> GetCountAsync(Expression<Func<TEntity, bool>> filter = null);
 

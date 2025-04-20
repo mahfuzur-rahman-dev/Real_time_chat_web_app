@@ -10,6 +10,7 @@ namespace ChatAppSignalR.Models
     public interface IUnitOfWork
     {
          IUserRepository Users { get; }
+         IUserConnectionRepository UserConnections { get; }
 
 
         Task SaveAsync();

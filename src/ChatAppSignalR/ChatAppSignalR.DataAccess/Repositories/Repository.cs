@@ -76,11 +76,18 @@ namespace ChatAppSignalR.DataAccess.Repositories
             return count;
         }
 
-        public virtual async Task<IList<TEntity>> GetAllAsync()
+        public virtual async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
             return await query.ToListAsync();
-        }       
-       
+        }
+
+
     }
 }

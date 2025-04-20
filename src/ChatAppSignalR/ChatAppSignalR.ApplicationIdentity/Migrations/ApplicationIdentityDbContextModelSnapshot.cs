@@ -119,7 +119,7 @@ namespace ChatAppSignalR.ApplicationIdentity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserConnections");
+                    b.ToTable("UserConnections", (string)null);
                 });
 
             modelBuilder.Entity("ChatAppSignalR.Models.Entities.User", b =>
@@ -133,7 +133,7 @@ namespace ChatAppSignalR.ApplicationIdentity.Migrations
 
                     b.HasKey("IdentityUserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

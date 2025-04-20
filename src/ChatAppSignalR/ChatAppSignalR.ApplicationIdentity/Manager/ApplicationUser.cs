@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ChatAppSignalR.ApplicationIdentity.Others;
 using ChatAppSignalR.Models.Entities;
+using ChatAppSignalR.Models.Others;
 using Microsoft.AspNetCore.Identity;
 
 namespace ChatAppSignalR.ApplicationIdentity.Manager
