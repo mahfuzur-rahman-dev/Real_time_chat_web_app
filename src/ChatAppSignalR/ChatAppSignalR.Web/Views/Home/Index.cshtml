@@ -109,7 +109,7 @@
             <!-- Tabs -->
             <ul class="nav nav-tabs nav-fill" id="userTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="all-users-tab" data-bs-toggle="tab" data-bs-target="#all-users" type="button" role="tab" aria-controls="all-users" aria-selected="true">Friends</button>
+                    <button onclick="fetchConnectedUser()" class="nav-link active" id="all-users-tab" data-bs-toggle="tab" data-bs-target="#all-users" type="button" role="tab" aria-controls="all-users" aria-selected="true">Friends</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button onclick="fetchAllUser()" class="nav-link" id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button" role="tab" aria-controls="friends" aria-selected="false">All users</button>
@@ -120,9 +120,9 @@
             <div class="tab-content flex-grow-1 user-list-scroll" id="userTabsContent">
                 <!-- Friends -->
                 <div class="tab-pane fade show active" id="all-users" role="tabpanel" aria-labelledby="all-users-tab">
-                    <div class="list-group list-group-flush">
+                    <div id="addFriendUser" class="list-group list-group-flush">
 
-                        @*  <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
+                         @* <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
                             <div class="d-flex align-items-center">
                                 <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
                                 <div class="flex-grow-1">
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
                             </div>
-                        </a> *@
+                        </a>   *@
 
                     </div>
                 </div>
@@ -300,24 +300,40 @@
         // Run when window is resized
         window.addEventListener('resize', adjustForTaskbar);
 
-        function openChat(element, userName) {
+        function openChat(element, fullName, reciverUserId) {
             // Remove active class from all list items
             document.querySelectorAll('.list-group-item').forEach(item => {
                 item.classList.remove('active');
             });
 
-            // Add active class to clicked item
-            element.classList.add('active');
+            // Add active class to clicked item if element is provided
+            if (element) {
+                element.classList.add('active');
+            }
 
             // Update chat header with user name
-            document.getElementById('chatUserName').textContent = userName;
+            $('#chatUserName').text(fullName);
+
+            // Hide placeholder and show chat area
+            $('#rightChatAreaTemp').addClass('d-none');
+            $('#rightChatArea').removeClass('d-none');
 
             // On mobile, show chat and hide user list
             if (window.innerWidth < 768) {
                 document.getElementById('chatContainer').classList.add('show-chat');
             }
 
-            // Here you would typically load the chat history for the selected user
+            // Set up the send button click handler
+            $('#sendBtn').off('click').on('click', function() {
+                const message = $('#messageInput').val(); // Get message from input field
+                notifyUser(reciverUserId, message);
+            });
+
+            // Clear existing messages and load chat history here if needed
+            // $('#notifications').empty();
+
+            // Focus on the message input
+            $('#messageInput').focus();
         }
 
         function backToUserList() {
@@ -328,7 +344,7 @@
 
     <script>
                 $(document).ready(function () {
-
+                    fetchConnectedUser();
 
             $('#messageInput').on('keydown', function (event) {
                 if (event.key === 'Enter' && !event.shiftKey) {
@@ -356,6 +372,57 @@
 
         }
 
+    </script>
+
+    @* Fetch friends *@
+
+    <script>
+        function fetchConnectedUser() {
+            $.ajax({
+                url: '/UserConnection/GetConnectedUser',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    const $friendUserList = $('#addFriendUser');
+                    $friendUserList.empty();
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(function (user) {
+                            // Defensive checks in case backend returns unexpected structure
+                            const userId = user.identityUserId || 'unknown-id';
+                            const fullName = user.fullName || 'Unnamed User';
+
+                            const chatItem = `
+                                    <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
+                                        <div class="d-flex align-items-center">
+                                            <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-0">John Doe</h6>
+                                                <small class="text-muted">Last message preview...</small>
+                                            </div>
+                                            <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
+                                        </div>
+                                    </a>
+                            `;
+                            $friendUserList.append(chatItem);
+                        });
+                    } else {
+
+                        $friendUserList.append(`
+                            <div class="d-flex justify-content-center align-items-center w-100" style="height: 300px;">
+                                <p class="text-center m-0">No users found.</p>
+                            </div>
+                        `);
+
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching users:', error);
+                    $('#addFriendUser').html('<p class="text-danger">Error loading users.</p>');
+                }
+            });
+        }
     </script>
 
 
@@ -522,5 +589,7 @@
             });
         }
     </script>
+
+
 
  }
