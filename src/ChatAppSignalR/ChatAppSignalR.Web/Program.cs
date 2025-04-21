@@ -1,8 +1,12 @@
 using ChatAppSignalR.Service.SignalHub;
 using ChatAppSignalR.Web.Extension;
+using DotNetEnv;
 
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

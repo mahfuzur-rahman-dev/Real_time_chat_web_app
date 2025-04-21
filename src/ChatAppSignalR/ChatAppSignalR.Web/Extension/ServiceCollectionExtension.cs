@@ -9,7 +9,16 @@ namespace ChatAppSignalR.Web.Extension
     {
         public static IServiceCollection AddDatabaeConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationIdentityDbContext>(dbContextOptions => dbContextOptions.UseSqlServer(configuration.GetConnectionString("DataBaseConnection")));
+            var connectionStringTemplate = configuration.GetConnectionString("DataBaseConnection");
+
+            // Replace placeholders with actual environment variables
+            var connectionString = connectionStringTemplate
+                .Replace("${DB_SERVER}", Environment.GetEnvironmentVariable("DB_SERVER"))
+                .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME"));
+
+            services.AddDbContext<ApplicationIdentityDbContext>(dbContextOptions => dbContextOptions.UseSqlServer(connectionString));
+
+            var x = connectionString;
 
             return services;
         }
