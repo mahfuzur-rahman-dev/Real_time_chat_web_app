@@ -10,11 +10,13 @@ namespace ChatAppSignalR.Web.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserManagementService _userManagementService;
+        private readonly IUserConnectionManagementService _userConnectionManagementService;
 
-        public UserController(ILogger<UserController> logger, IUserManagementService userManagementService)
+        public UserController(ILogger<UserController> logger, IUserManagementService userManagementService, IUserConnectionManagementService userConnectionManagementService)
         {
             _logger = logger;
             _userManagementService = userManagementService;
+            _userConnectionManagementService = userConnectionManagementService;
         }
 
         [Authorize]
@@ -25,12 +27,22 @@ namespace ChatAppSignalR.Web.Controllers
             {
                 var currentUserId = await GetCurrentUserId();
                 if (string.IsNullOrEmpty(currentUserId))
-                    return RedirectToAction("Login", "Account"); 
+                    return RedirectToAction("Login", "Account");
 
                 var users = await _userManagementService.GetAllUserAsync();
                 var usersWithoutMe = users.Where(u => u.IdentityUserId != currentUserId).ToList();
 
-                return Ok(usersWithoutMe); // 200 with JSON content
+                if (usersWithoutMe == null || !usersWithoutMe.Any())
+                    return NotFound(new { message = "No users found" });
+
+                var connectedUsers = await _userConnectionManagementService.GetAllConnectedUserAsync(currentUserId);
+                var connectedUserIds = connectedUsers.Select(c => c.IdentityUserId).ToHashSet();
+
+                var nonConnectedUsers = usersWithoutMe
+                    .Where(u => !connectedUserIds.Contains(u.IdentityUserId))
+                    .ToList();
+
+                return Ok(nonConnectedUsers);
             }
             catch (Exception ex)
             {
@@ -38,6 +50,7 @@ namespace ChatAppSignalR.Web.Controllers
                 return StatusCode(500, new { message = "Internal Server Error", details = ex.Message });
             }
         }
+
 
 
         [Authorize]

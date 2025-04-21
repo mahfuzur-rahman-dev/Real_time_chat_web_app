@@ -442,7 +442,7 @@
                             const fullName = user.fullName || 'Unnamed User';
 
                             const chatItem = `
-                                       <div class="list-group-item list-group-item-action d-flex align-items-center">
+                                       <div id="${fullName}_${userId}" class="list-group-item list-group-item-action d-flex align-items-center">
                                             <div class="d-flex align-items-center flex-grow-1" style="cursor: pointer;" onclick="openChat(this, '${fullName}', '${userId}')">
                                                 <img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
                                                 <div class="flex-grow-1">
@@ -586,6 +586,7 @@
                     if (response.message !== "Success") {
                         console.error("Server responded with error.");
                     }
+                    fetchAllUser()
                 },
                 error: function (err) {
                     console.error("Error sending message:", err);
