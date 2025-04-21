@@ -2,127 +2,162 @@
 @model User
 
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 
 @section Styles {
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
+	<style>
+		.loader {
+			width: 48px;
+			height: 48px;
+			border: 2px solid #FFF;
+			border-radius: 50%;
+			display: inline-block;
+			position: relative;
+			box-sizing: border-box;
+			animation: rotation 1s linear infinite;
+		}
 
-        /* Main container with safe area for taskbar */
-        .chat-container {
-            height: calc(100% - 40px) !important; /* Reduce height to avoid taskbar overlap */
-            padding-bottom: 10px; /* Add padding at the bottom */
-            max-height: 100vh;
-            overflow: hidden;
-        }
+			.loader::after {
+				content: '';
+				box-sizing: border-box;
+				position: absolute;
+				left: 50%;
+				top: 0;
+				background: #FF3D00;
+				width: 3px;
+				height: 24px;
+				transform: translateX(-50%);
+			}
 
-        @@media (max-width: 767.98px) {
-            .chat-container.show-chat .user-list-container {
-                display: none !important;
-            }
+		@@keyframes rotation {
+			0% {
+				transform: rotate(0deg);
+			}
 
-            .chat-container.show-chat .chat-area-container {
-                display: flex !important;
-            }
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
 
-            .chat-area-container {
-                display: none !important;
-            }
-            /* Add extra bottom padding on mobile */
-            .chat-container {
-                height: calc(100% - 60px) !important;
-                padding-bottom: 15px;
-            }
-        }
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
 
-        .messages-container {
-            overflow-y: auto;
-            padding-bottom: 10px; /* Extra padding for messages container */
-        }
+		/* Main container with safe area for taskbar */
+		.chat-container {
+			height: calc(100% - 40px) !important; /* Reduce height to avoid taskbar overlap */
+			padding-bottom: 10px; /* Add padding at the bottom */
+			max-height: 100vh;
+			overflow: hidden;
+		}
 
-        .user-list-scroll {
-            overflow-y: auto;
-            padding-bottom: 10px; /* Extra padding for user list */
-        }
+		@@media (max-width: 767.98px) {
+			.chat-container.show-chat .user-list-container {
+				display: none !important;
+			}
 
-        /* Ensure the chat input stays above the taskbar */
-        .chat-input-container {
-            position: relative;
-            z-index: 1000;
-            background-color: white;
-        }
+			.chat-container.show-chat .chat-area-container {
+				display: flex !important;
+			}
 
-        /* Safe area for iOS devices */
-        @@supports (padding: max(0px)) {
-            .chat-container {
-                padding-bottom: max(10px, env(safe-area-inset-bottom));
-                height: calc(100% - max(40px, env(safe-area-inset-bottom))) !important;
-            }
-        }
-    </style>
+			.chat-area-container {
+				display: none !important;
+			}
+			/* Add extra bottom padding on mobile */
+			.chat-container {
+				height: calc(100% - 60px) !important;
+				padding-bottom: 15px;
+			}
+		}
+
+		.messages-container {
+			overflow-y: auto;
+			padding-bottom: 10px; /* Extra padding for messages container */
+		}
+
+		.user-list-scroll {
+			overflow-y: auto;
+			padding-bottom: 10px; /* Extra padding for user list */
+		}
+
+		/* Ensure the chat input stays above the taskbar */
+		.chat-input-container {
+			position: relative;
+			z-index: 1000;
+			background-color: white;
+		}
+
+		/* Safe area for iOS devices */
+		@@supports (padding: max(0px)) {
+			.chat-container {
+				padding-bottom: max(10px, env(safe-area-inset-bottom));
+				height: calc(100% - max(40px, env(safe-area-inset-bottom))) !important;
+			}
+		}
+	</style>
 
 }
 
 <div class="container-fluid p-0 chat-container" id="chatContainer">
-    <div class="row g-0 h-100">
-        <!-- Left Sidebar - User List -->
-        <div class="col-md-4 col-lg-3 bg-white border-end h-100 d-flex flex-column user-list-container">
-            <!-- Profile Section -->
-            <div class="p-3 border-bottom">
-                <div class="d-flex align-items-center">
-                    <img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="Profile">
-                    <div class="flex-grow-1">
-                        <h6 class="mb-0">@Model.FullName</h6>
-                        <small class="text-muted">Online</small>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-light" type="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+	<div class="row g-0 h-100">
+		<!-- Left Sidebar - User List -->
+		<div class="col-md-4 col-lg-3 bg-white border-end h-100 d-flex flex-column user-list-container">
+			<!-- Profile Section -->
+			<div class="p-3 border-bottom">
+				<div class="d-flex align-items-center">
+					<img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="Profile">
+					<div class="flex-grow-1">
+						<h6 class="mb-0">@Model.FullName</h6>
+						<small class="text-muted">Online</small>
+					</div>
+					<div class="dropdown">
+						<button class="btn btn-sm btn-light" type="button" id="profileMenu" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="fas fa-ellipsis-v"></i>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
+							<li><a class="dropdown-item" href="#">Profile</a></li>
+							<li><a class="dropdown-item" href="#">Settings</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 
-            <!-- Search Box -->
-            <div class="p-3 border-bottom">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search users...">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
+			<!-- Search Box -->
+			<div class="p-3 border-bottom">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search users...">
+					<button class="btn btn-outline-secondary" type="button">
+						<i class="fas fa-search"></i>
+					</button>
+				</div>
+			</div>
 
-            <!-- Tabs -->
-            <ul class="nav nav-tabs nav-fill" id="userTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button onclick="fetchConnectedUser()" class="nav-link active" id="all-users-tab" data-bs-toggle="tab" data-bs-target="#all-users" type="button" role="tab" aria-controls="all-users" aria-selected="true">Friends</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button onclick="fetchAllUser()" class="nav-link" id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button" role="tab" aria-controls="friends" aria-selected="false">All users</button>
-                </li>
-            </ul>
+			<!-- Tabs -->
+			<ul class="nav nav-tabs nav-fill" id="userTabs" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button onclick="fetchConnectedUser()" class="nav-link active" id="all-users-tab" data-bs-toggle="tab" data-bs-target="#all-users" type="button" role="tab" aria-controls="all-users" aria-selected="true">Friends</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button onclick="fetchAllUser()" class="nav-link" id="friends-tab" data-bs-toggle="tab" data-bs-target="#friends" type="button" role="tab" aria-controls="friends" aria-selected="false">All users</button>
+				</li>
+			</ul>
 
-            <!-- Tab Content -->
-            <div class="tab-content flex-grow-1 user-list-scroll" id="userTabsContent">
-                <!-- Friends -->
-                <div class="tab-pane fade show active" id="all-users" role="tabpanel" aria-labelledby="all-users-tab">
-                    <div id="addFriendUser" class="list-group list-group-flush">
+			<!-- Tab Content -->
+			<div class="tab-content flex-grow-1 user-list-scroll" id="userTabsContent">
+				<!-- Friends -->
+				<div class="tab-pane fade show active" id="all-users" role="tabpanel" aria-labelledby="all-users-tab">
+					<div id="addFriendUser" class="list-group list-group-flush">
 
-                         @* <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
+						@* <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
                             <div class="d-flex align-items-center">
                                 <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
                                 <div class="flex-grow-1">
@@ -133,110 +168,114 @@
                             </div>
                         </a>   *@
 
-                    </div>
-                </div>
+					</div>
+				</div>
 
-                <!-- All Users -->
-                <div class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="friends-tab">
-                    <div id="addAllUser" class="list-group list-group-flush">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="rightChatAreaTemp" class="col-md-8 col-lg-9 bg-white d-flex flex-column h-100 chat-area-container justify-content-center align-items-center">
-            <!-- Replace the <h3> with the SVG -->
-            <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
-                <!-- Main chat bubble group -->
-                <g transform="translate(100, 100)">
-                    <!-- Empty chat bubble -->
-                    <rect x="0" y="0" width="180" height="100" rx="20" ry="20" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="2" />
-
-                    <!-- Typing indicator dots -->
-                    <circle cx="40" cy="50" r="6" fill="#a0aec0">
-                        <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite" begin="0s" />
-                    </circle>
-                    <circle cx="60" cy="50" r="6" fill="#a0aec0">
-                        <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite" begin="0.4s" />
-                    </circle>
-                    <circle cx="80" cy="50" r="6" fill="#a0aec0">
-                        <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite" begin="0.8s" />
-                    </circle>
-                </g>
-
-                <!-- Filled chat bubble -->
-                <g transform="translate(240, 160)">
-                    <rect x="0" y="0" width="160" height="80" rx="20" ry="20" fill="#6366f1" stroke="#5558dd" stroke-width="2" />
-
-                    <!-- Chat lines -->
-                    <line x1="30" y1="25" x2="130" y2="25" stroke="white" stroke-width="3" stroke-linecap="round" />
-                    <line x1="30" y1="40" x2="110" y2="40" stroke="white" stroke-width="3" stroke-linecap="round" />
-                    <line x1="30" y1="55" x2="90" y2="55" stroke="white" stroke-width="3" stroke-linecap="round" />
-                </g>
-
-                <!-- Connection lines (animated) -->
-                <path d="M200 150 C 220 155, 230 160, 240 200" stroke="#d0d8e0" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="5,5">
-                    <animate attributeName="stroke-dashoffset" from="10" to="0" dur="3s" repeatCount="indefinite" />
-                </path>
-
-                <!-- Start text -->
-                <text x="250" y="320" font-family="Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#6366f1">Click on a user to start Chatting</text>
-
-                <!-- Decorative elements -->
-                <circle cx="160" cy="70" r="12" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="2" />
-                <circle cx="340" cy="120" r="8" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="2" />
-                <circle cx="380" cy="260" r="15" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="2" />
-
-                <!-- Subtle pulse animation around main bubble -->
-                <circle cx="180" cy="150" r="100" fill="none" stroke="#6366f1" stroke-width="1" opacity="0.2">
-                    <animate attributeName="r" values="100;110;100" dur="4s" repeatCount="indefinite" />
-                    <animate attributeName="opacity" values="0.2;0.1;0.2" dur="4s" repeatCount="indefinite" />
-                </circle>
-            </svg>
-        </div>
+				<!-- All Users -->
+				<div class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="friends-tab">
+					<div id="addAllUser" class="list-group list-group-flush">
+					</div>
+				</div>
+			</div>
+		</div>
 
 
+		<div id="rightChatAreaTemp" class="col-md-8 col-lg-9 bg-white d-flex flex-column h-100 chat-area-container justify-content-center align-items-center">
+			<!-- Replace the <h3> with the SVG -->
+			<svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+				<!-- Main chat bubble group -->
+				<g transform="translate(100, 100)">
+					<!-- Empty chat bubble -->
+					<rect x="0" y="0" width="180" height="100" rx="20" ry="20" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="2" />
 
-        <!-- Right Chat Area -->
-        <div id="rightChatArea" class="col-md-8 col-lg-9 bg-white d-flex flex-column h-100 chat-area-container d-none">
+					<!-- Typing indicator dots -->
+					<circle cx="40" cy="50" r="6" fill="#a0aec0">
+						<animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite" begin="0s" />
+					</circle>
+					<circle cx="60" cy="50" r="6" fill="#a0aec0">
+						<animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite" begin="0.4s" />
+					</circle>
+					<circle cx="80" cy="50" r="6" fill="#a0aec0">
+						<animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite" begin="0.8s" />
+					</circle>
+				</g>
+
+				<!-- Filled chat bubble -->
+				<g transform="translate(240, 160)">
+					<rect x="0" y="0" width="160" height="80" rx="20" ry="20" fill="#6366f1" stroke="#5558dd" stroke-width="2" />
+
+					<!-- Chat lines -->
+					<line x1="30" y1="25" x2="130" y2="25" stroke="white" stroke-width="3" stroke-linecap="round" />
+					<line x1="30" y1="40" x2="110" y2="40" stroke="white" stroke-width="3" stroke-linecap="round" />
+					<line x1="30" y1="55" x2="90" y2="55" stroke="white" stroke-width="3" stroke-linecap="round" />
+				</g>
+
+				<!-- Connection lines (animated) -->
+				<path d="M200 150 C 220 155, 230 160, 240 200" stroke="#d0d8e0" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="5,5">
+					<animate attributeName="stroke-dashoffset" from="10" to="0" dur="3s" repeatCount="indefinite" />
+				</path>
+
+				<!-- Start text -->
+				<text x="250" y="320" font-family="Arial, sans-serif" font-size="13" font-weight="bold" text-anchor="middle" fill="#6366f1">Click on a user to start Chatting</text>
+
+				<!-- Decorative elements -->
+				<circle cx="160" cy="70" r="12" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="2" />
+				<circle cx="340" cy="120" r="8" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="2" />
+				<circle cx="380" cy="260" r="15" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="2" />
+
+				<!-- Subtle pulse animation around main bubble -->
+				<circle cx="180" cy="150" r="100" fill="none" stroke="#6366f1" stroke-width="1" opacity="0.2">
+					<animate attributeName="r" values="100;110;100" dur="4s" repeatCount="indefinite" />
+					<animate attributeName="opacity" values="0.2;0.1;0.2" dur="4s" repeatCount="indefinite" />
+				</circle>
+			</svg>
+		</div>
 
 
-            <!-- Chat Header -->
-            <div class="d-flex align-items-center p-3 border-bottom" id="chatHeader">
-                <button class="btn btn-sm btn-light me-2 d-md-none" onclick="backToUserList()">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
-                <div class="flex-grow-1">
-                    <h5 class="mb-0" id="chatUserName">John Doe</h5>
-                    <small class="text-muted">Online</small>
-                </div>
-            </div>
 
-            <!-- Chat Messages -->
-            <div id="notifications" class="p-3 bg-light flex-grow-1 messages-container d-flex flex-column">
-                <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
-                    Hi there! How are you doing today?
-                </div>
-            </div>
+		<!-- Right Chat Area -->
+		<div id="rightChatArea" class="col-md-8 col-lg-9 bg-white d-flex flex-column h-100 chat-area-container d-none">
 
 
-            <!-- Chat Input -->
-            <div class="p-3 border-top bg-white chat-input-container">
-                <div class="d-flex" id="messageForm">
-                    <button type="button" class="btn btn-light rounded-circle me-2">
-                        <i class="fas fa-paperclip"></i>
-                    </button>
-                    <input type="text" id="messageInput" class="form-control me-2" placeholder="Type your message here...">
-                    <button id="sendBtn" type="button" class="btn btn-primary rounded-circle">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
+			<!-- Chat Header -->
+			<div class="d-flex align-items-center p-3 border-bottom" id="chatHeader">
+				<button class="btn btn-sm btn-light me-2 d-md-none" onclick="backToUserList()">
+					<i class="fas fa-arrow-left"></i>
+				</button>
+				<img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
+				<div class="flex-grow-1">
+					<h5 class="mb-0" id="chatUserName"></h5>
+					<small class="text-muted"></small>
+				</div>
+			</div>
 
-        </div>
-    </div>
+			<!-- Chat Messages -->
+			<div id="notifications" class="p-3 bg-light flex-grow-1 messages-container d-flex flex-column align-items-center">
+				<span class="text-secondary my-3 small text-center" style="display: inline-block;">
+					Enjoy instant chatting.....!
+				</span>
+				<span class="badge p-2 mb-3 bg-warning text-black text-center" style="display: inline-block;">
+					Chat will disappear when moving from one friend to another
+				</span>
+			</div>
+
+
+
+			<!-- Chat Input -->
+			<div class="p-3 border-top bg-white chat-input-container">
+				<div class="d-flex" id="messageForm">
+					<button type="button" class="btn btn-light rounded-circle me-2">
+						<i class="fas fa-paperclip"></i>
+					</button>
+					<input type="text" id="messageInput" class="form-control me-2" placeholder="Type your message here...">
+					<button id="sendBtn" type="button" class="btn btn-primary rounded-circle">
+						<i class="fas fa-paper-plane"></i>
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 </div>
 
 
@@ -244,32 +283,55 @@
 <!--Modal for add new connections-->
 <!-- Modal -->
 <div class="modal fade" id="addNewUserConnectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body text-center py-4">
-                <div class="d-flex justify-content-center mb-3">
-                    <div class="position-relative">
-                        <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 60px; height: 60px;">
-                            <i class="fa-solid fa-user" style="font-size: 24px; color: #6c757d;"></i>
-                        </div>
-                        <div class="position-absolute bottom-0 end-0 bg-success rounded-circle d-flex justify-content-center align-items-center" style="width: 22px; height: 22px; border: 2px solid white;">
-                            <i class="fa-solid fa-plus text-white" style="font-size: 10px;"></i>
-                        </div>
-                    </div>
-                </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body text-center py-4">
+				<div class="d-flex justify-content-center mb-3">
+					<div class="position-relative">
+						<div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 60px; height: 60px;">
+							<i class="fa-solid fa-user" style="font-size: 24px; color: #6c757d;"></i>
+						</div>
+						<div class="position-absolute bottom-0 end-0 bg-success rounded-circle d-flex justify-content-center align-items-center" style="width: 22px; height: 22px; border: 2px solid white;">
+							<i class="fa-solid fa-plus text-white" style="font-size: 10px;"></i>
+						</div>
+					</div>
+				</div>
 
-                <h5 class="mb-3">Connect with <span id="connectionName" class="fw-bold text-decoration-underline link-primary"></span>?</h5>
-                <span id="connectionUserId" class="d-none"></span>
-                @*  <div class="input-group mb-3">
+				<h5 class="mb-3">Connect with <span id="connectionName" class="fw-bold text-decoration-underline link-primary"></span>?</h5>
+				<span id="connectionUserId" class="d-none"></span>
+				@*  <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Add a message (optional)" aria-label="connection-message">
                 </div> *@
-            </div>
-            <div class="modal-footer justify-content-center border-0 pt-0">
-                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal" onclick="sendConnectionRequest('@Model.IdentityUserId')">Add</button>
-            </div>
-        </div>
-    </div>
+			</div>
+			<div class="modal-footer justify-content-center border-0 pt-0">
+				<button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal" onclick="sendConnectionRequest('@Model.IdentityUserId')">Add</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Modal for not connectedd user open chat alert -->
+<div class="modal fade" id="friendModal" tabindex="-1" aria-labelledby="friendModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body text-center py-4">
+				<div class="d-flex justify-content-center mb-3">
+					<div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 60px; height: 60px;">
+						<i class="fa-solid fa-user-lock" style="font-size: 24px; color: #6c757d;"></i>
+					</div>
+				</div>
+
+				<h5 class="mb-3">Action Required</h5>
+				<p class="mb-0">You can send a message after making a friend.</p>
+			</div>
+			<div class="modal-footer justify-content-center border-0 pt-0">
+				<button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -277,323 +339,376 @@
 
 @section Scripts {
 
-    <script>
-        // Ensure the app doesn't go under the taskbar
-        function adjustForTaskbar() {
-            const windowHeight = window.innerHeight;
-            const chatContainer = document.getElementById('chatContainer');
-
-            // Detect mobile devices
-            const isMobile = window.innerWidth < 768;
-
-            // Adjust container height based on device type
-            if (isMobile) {
-                chatContainer.style.height = `calc(${windowHeight}px - 60px)`;
-            } else {
-                chatContainer.style.height = `calc(${windowHeight}px - 40px)`;
-            }
-        }
-
-        // Run on page load
-        window.addEventListener('load', adjustForTaskbar);
-
-        // Run when window is resized
-        window.addEventListener('resize', adjustForTaskbar);
-
-        function openChat(element, fullName, reciverUserId) {
-            // Remove active class from all list items
-            document.querySelectorAll('.list-group-item').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // Add active class to clicked item if element is provided
-            if (element) {
-                element.classList.add('active');
-            }
-
-            // Update chat header with user name
-            $('#chatUserName').text(fullName);
-
-            // Hide placeholder and show chat area
-            $('#rightChatAreaTemp').addClass('d-none');
-            $('#rightChatArea').removeClass('d-none');
-
-            // On mobile, show chat and hide user list
-            if (window.innerWidth < 768) {
-                document.getElementById('chatContainer').classList.add('show-chat');
-            }
-
-            // Set up the send button click handler
-            $('#sendBtn').off('click').on('click', function() {
-                const message = $('#messageInput').val(); // Get message from input field
-                notifyUser(reciverUserId, message);
-            });
-
-            // Clear existing messages and load chat history here if needed
-            // $('#notifications').empty();
-
-            // Focus on the message input
-            $('#messageInput').focus();
-        }
-
-        function backToUserList() {
-            // On mobile, hide chat and show user list
-            document.getElementById('chatContainer').classList.remove('show-chat');
-        }
-    </script>
-
-    <script>
-                $(document).ready(function () {
-                    fetchConnectedUser();
-
-            $('#messageInput').on('keydown', function (event) {
-                if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
-                    sendMessage();
-                }
-            });
-        });
-    </script>
-
-    <script>
-        function openChat(element, fullName, reciverUserId) {
-            $('#chatUserName').text(fullName);
-            $('#rightChatAreaTemp').addClass('d-none');
-            $('#rightChatArea').removeClass('d-none');
-            $('#startChatPlaceholder').hide();
-
-            // Set up the send button click handler
-            $('#sendBtn').off('click').on('click', function() {
-                const message = $('#messageInput').val(); // Get message from input field
-                notifyUser(reciverUserId, message);
-                // sendMessage(reciverUserId);
-            });
+	<script>
+		function callModal() {
+			const modal = new bootstrap.Modal(document.getElementById('friendModal'));
+			modal.show();
+		}
+	</script>
 
 
-        }
+	<script>
+		// Ensure the app doesn't go under the taskbar
+		function adjustForTaskbar() {
+			const windowHeight = window.innerHeight;
+			const chatContainer = document.getElementById('chatContainer');
 
-    </script>
+			// Detect mobile devices
+			const isMobile = window.innerWidth < 768;
 
-    @* Fetch friends *@
+			// Adjust container height based on device type
+			if (isMobile) {
+				chatContainer.style.height = `calc(${windowHeight}px - 60px)`;
+			} else {
+				chatContainer.style.height = `calc(${windowHeight}px - 40px)`;
+			}
+		}
 
-    <script>
-        function fetchConnectedUser() {
-            $.ajax({
-                url: '/UserConnection/GetConnectedUser',
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    const $friendUserList = $('#addFriendUser');
-                    $friendUserList.empty();
+		// Run on page load
+		window.addEventListener('load', adjustForTaskbar);
 
-                    if (Array.isArray(data) && data.length > 0) {
-                        data.forEach(function (user) {
-                            // Defensive checks in case backend returns unexpected structure
-                            const userId = user.identityUserId || 'unknown-id';
-                            const fullName = user.fullName || 'Unnamed User';
+		// Run when window is resized
+		window.addEventListener('resize', adjustForTaskbar);
 
-                            const chatItem = `
-                                    <a href="#" class="list-group-item list-group-item-action" onclick="openChat(this, 'John Doe')">
-                                        <div class="d-flex align-items-center">
-                                            <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
-                                            <div class="flex-grow-1">
-                                                <h6 class="mb-0">${fullName}</h6>
-                                            </div>
-                                            <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
-                                        </div>
-                                    </a>
-                            `;
-                            $friendUserList.append(chatItem);
-                        });
-                    } else {
+		function openChat(element, fullName, reciverUserId) {
 
-                        $friendUserList.append(`
-                            <div class="d-flex justify-content-center align-items-center w-100" style="height: 300px;">
-                                <p class="text-center m-0">No users found.</p>
-                            </div>
-                        `);
+			$('#notifications').empty();
+			
 
 
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching users:', error);
-                    $('#addFriendUser').html('<p class="text-danger">Error loading users.</p>');
-                }
-            });
-        }
-    </script>
+
+			// Remove active class from all list items
+			document.querySelectorAll('.list-group-item').forEach(item => {
+				item.classList.remove('active');
+			});
+
+			// Add active class to clicked item if element is provided
+			if (element) {
+				element.classList.add('active');
+			}
+
+			// Update chat header with user name
+			$('#chatUserName').text(fullName);
+
+			// Hide placeholder and show chat area
+			$('#rightChatAreaTemp').addClass('d-none');
+			$('#rightChatArea').removeClass('d-none');
+
+			// On mobile, show chat and hide user list
+			if (window.innerWidth < 768) {
+				document.getElementById('chatContainer').classList.add('show-chat');
+			}
+
+			// Set up the send button click handler
+			$('#sendBtn').off('click').on('click', function() {
+				const message = $('#messageInput').val(); // Get message from input field
+				notifyUser(reciverUserId, message);
+			});
+
+			// Clear existing messages and load chat history here if needed
+			// $('#notifications').empty();
+
+			// Focus on the message input
+			$('#messageInput').focus();
+		}
+
+		function backToUserList() {
+			// On mobile, hide chat and show user list
+			document.getElementById('chatContainer').classList.remove('show-chat');
+		}
+	</script>
+
+	<script>
+				$(document).ready(function () {
+					fetchConnectedUser();
+
+			$('#messageInput').on('keydown', function (event) {
+				if (event.key === 'Enter' && !event.shiftKey) {
+					event.preventDefault();
+				}
+			});
+		});
+	</script>
+
+	<script>
+		function openChat(element, fullName, reciverUserId) {
+			$('#chatUserName').text(fullName);
+			$('#rightChatAreaTemp').addClass('d-none');
+			$('#rightChatArea').removeClass('d-none');
+			$('#startChatPlaceholder').hide();
+
+			// Set up the send button click handler
+			$('#sendBtn').off('click').on('click', function() {
+				const message = $('#messageInput').val(); // Get message from input field
+				notifyUser(reciverUserId, message);
+				// sendMessage(reciverUserId);
+			});
 
 
-    <script>
-        function fetchAllUser() {
-            $.ajax({
-                url: '/User/GetAllUser',
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    const $userList = $('#addAllUser');
-                    $userList.empty();
+		}
 
-                    if (Array.isArray(data) && data.length > 0) {
-                        data.forEach(function (user) {
-                            // Defensive checks in case backend returns unexpected structure
-                            const userId = user.identityUserId || 'unknown-id';
-                            const fullName = user.fullName || 'Unnamed User';
+	</script>
 
-                            const chatItem = `
-                                       <div id="${fullName}_${userId}" class="list-group-item list-group-item-action d-flex align-items-center">
-                                            <div class="d-flex align-items-center flex-grow-1" style="cursor: pointer;" onclick="openChat(this, '${fullName}', '${userId}')">
-                                                <img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
-                                                <div class="flex-grow-1">
-                                                    <h6 class="mb-0">${fullName}</h6>
-                                                </div>
-                                            </div>
-                                            <button class="btn  rounded-circle border border-primary d-flex justify-content-center align-items-center p-0"
-                                                    style="width: 30px; height: 30px; border: none;"
-                                                    onclick="addNewConnection('${userId}', '${fullName}')">
-                                                <i class="fa-solid fa-plus text-primary" style="font-size: 12px;"></i>
-                                            </button>
-                                        </div>
-                            `;
-                            $userList.append(chatItem);
-                        });
-                    } else {
+@* Fetch friends *@
 
-                        $userList.append(`
-                            <div class="d-flex justify-content-center align-items-center w-100" style="height: 300px;">
-                                <p class="text-center m-0">No users found.</p>
-                            </div>
-                        `);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching users:', error);
-                    $('#addAllUser').html('<p class="text-danger">Error loading users.</p>');
-                }
-            });
-        }
-    </script>
+	<script>
+		function fetchConnectedUser() {
+			$.ajax({
+				url: '/UserConnection/GetConnectedUser',
+				type: 'GET',
+				dataType: 'json',
+				success: function (data) {
+					const $friendUserList = $('#addFriendUser');
+					$friendUserList.empty();
+
+					if (Array.isArray(data) && data.length > 0) {
+						data.forEach(function (user) {
+							// Defensive checks in case backend returns unexpected structure
+							const userId = user.identityUserId || 'unknown-id';
+							const fullName = user.fullName || 'Unnamed User';
+
+							const chatItem = `
+								<div id="${fullName}_${userId}" class="list-group-item list-group-item-action d-flex align-items-center">
+									<div class="d-flex align-items-center flex-grow-1" style="cursor: pointer;" onclick="openChat(this, '${fullName}', '${userId}')">
+										<img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
+										<div class="flex-grow-1">
+											<h6 class="mb-0">${fullName}</h6>
+										</div>
+									</div>
+									<div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
+								</div>
+							`;
+							$friendUserList.append(chatItem);
+						});
+					} else {
+
+						$friendUserList.append(`
+							<div class="d-flex justify-content-center align-items-center w-100" style="height: 300px;">
+								<p class="text-center m-0">No users found.</p>
+							</div>
+						`);
 
 
-    <script>
-
-        function sendMessage() {
-            var message = $('#messageInput').val().trim();
-            if (message === "") return;
-
-            $.ajax({
-                url: '/Notification/SendNotificationToAll',
-                method: 'POST',
-                data: { message: message },
-                success: function (response) {
-                    $('#messageInput').val('');
-                    if (response.message !== "Success") {
-                        console.error("Server responded with error.");
-                    }
-                },
-                error: function (err) {
-                    console.error("Error sending message:", err);
-                }
-            });
-        }
+					}
+				},
+				error: function (xhr, status, error) {
+					console.error('Error fetching users:', error);
+					$('#addFriendUser').html('<p class="text-danger">Error loading users.</p>');
+				}
+			});
+		}
+	</script>
 
 
-        function notifyUser(reciverUserId, message) {
-            console.log("Starting notification process");
-            var message = $('#messageInput').val().trim();
-            if (message === "") return;
-            console.log("Sending message:", message);
-            $.ajax({
-                url: '/Notification/SendIndividualNotification',
-                method: 'POST',
-                data: {
-                    reciverUserId: reciverUserId,
-                    message: message
-                },
-                success: function (response) {
-                    console.log("Response received:", response);
-                    $('#messageInput').val('');
-                    if (response.message !== "Success") {
-                        console.error("Server responded with error.");
-                    }
-                },
-                error: function (err) {
-                    console.error("Error sending message:", err);
-                }
-            });
-        }
-    </script>
+	<script>
+		function fetchAllUser() {
+			$.ajax({
+				url: '/User/GetAllUser',
+				type: 'GET',
+				dataType: 'json',
+				success: function (data) {
+					const $userList = $('#addAllUser');
+					$userList.empty();
+
+					if (Array.isArray(data) && data.length > 0) {
+						data.forEach(function (user) {
+							// Defensive checks in case backend returns unexpected structure
+							const userId = user.identityUserId || 'unknown-id';
+							const fullName = user.fullName || 'Unnamed User';
+
+							const chatItem = `
+									   <div id="${fullName}_${userId}" class="list-group-item list-group-item-action d-flex align-items-center" onclick="callModal()">
+										  <div class="d-flex align-items-center flex-grow-1" style="cursor: pointer;" >
+												<img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
+												<div class="flex-grow-1">
+													<h6 class="mb-0">${fullName}</h6>
+												</div>
+											</div>
+											<button class="btn  rounded-circle border border-primary d-flex justify-content-center align-items-center p-0"
+													style="width: 30px; height: 30px; border: none;"
+													onclick="addNewConnection('${userId}', '${fullName}')">
+												<i class="fa-solid fa-plus text-primary" style="font-size: 12px;"></i>
+											</button>
+										</div>
+							`;
 
 
-    <script>
-        const connection1 = new signalR.HubConnectionBuilder()
-            .withUrl("/callNotificationHub") // Your SignalR hub route
-            .build();
+							// const chatItem = `
+							//            <div id="${fullName}_${userId}" class="list-group-item list-group-item-action d-flex align-items-center">
+							//               <div class="d-flex align-items-center flex-grow-1" style="cursor: pointer;" onclick="openChat(this, '${fullName}', '${userId}')">
+							//                     <img src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
+							//                     <div class="flex-grow-1">
+							//                         <h6 class="mb-0">${fullName}</h6>
+							//                     </div>
+							//                 </div>
+							//                 <button class="btn  rounded-circle border border-primary d-flex justify-content-center align-items-center p-0"
+							//                         style="width: 30px; height: 30px; border: none;"
+							//                         onclick="addNewConnection('${userId}', '${fullName}')">
+							//                     <i class="fa-solid fa-plus text-primary" style="font-size: 12px;"></i>
+							//                 </button>
+							//             </div>
+							// `;
 
-        connection1.on("ReceiveMessage", function (notification) {
-            const chatMessage = `
-                <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
-                    ${notification}
-                </div>
-            `;
-            $('#notifications').append(chatMessage);
-            $('#notifications').scrollTop($('#notifications')[0].scrollHeight);
-        });
+							$userList.append(chatItem);
+						});
+					} else {
 
-
-        connection1.on("SendIndividualMessage", function (notification) {
-            const chatMessage = `
-                <div class="bg-white rounded-3 p-3 mb-3 align-self-start" style="max-width: 75%;">
-                    ${notification}
-                </div>
-            `;
-            $('#notifications').append(chatMessage);
-            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-            $('#notifications').scrollTop($('#notifications')[0].scrollHeight);
-        });
-
-        connection1.start().catch(function (err) {
-            console.error(err.toString());
-        });
-    </script>
-
-
-    <script>
-        function addNewConnection(newConnectionUserId, fullName){
-             $('#addNewUserConnectionModal').modal('show');
-             $('#connectionName').text(fullName);
-             $('#connectionUserId').text(newConnectionUserId);
-
-        }
+						$userList.append(`
+							<div class="d-flex justify-content-center align-items-center w-100" style="height: 300px;">
+								<p class="text-center m-0">No users found.</p>
+							</div>
+						`);
+					}
+				},
+				error: function (xhr, status, error) {
+					console.error('Error fetching users:', error);
+					$('#addAllUser').html('<p class="text-danger">Error loading users.</p>');
+				}
+			});
+		}
+	</script>
 
 
-        function sendConnectionRequest(currentUserId){
-            const fullName = $('#connectionName').text();
-            const newConnectionUserId = $('#connectionUserId').text();
+	<script>
 
-            if (fullName === "" || newConnectionUserId === "") return;
+		function sendMessage() {
+			var message = $('#messageInput').val().trim();
+			if (message === "") return;
 
-            $.ajax({
-                url: '/UserConnection/AddConnection',
-                method: 'POST',
-                data: {
-                    newConnectionUserId : newConnectionUserId,
-                    currentUserId: currentUserId
-                },
-                success: function (response) {
-                    $('#messageInput').val('');
-                    if (response.message !== "Success") {
-                        console.error("Server responded with error.");
-                    }
-                    fetchAllUser()
-                },
-                error: function (err) {
-                    console.error("Error sending message:", err);
-                }
-            });
-        }
-    </script>
+			$.ajax({
+				url: '/Notification/SendNotificationToAll',
+				method: 'POST',
+				data: { message: message },
+				success: function (response) {
+					$('#messageInput').val('');
+					if (response.message !== "Success") {
+						console.error("Server responded with error.");
+					}
+				},
+				error: function (err) {
+					console.error("Error sending message:", err);
+				}
+			});
+		}
+
+	</script>
+
+
+	<!-- Update the notifyUser function to show sent messages -->
+	<script>
+		function notifyUser(reciverUserId, message) {
+			console.log("Starting notification process");
+			var message = $('#messageInput').val().trim();
+			if (message === "") return;
+			console.log("Sending message:", message);
+
+			// Add the sent message locally first
+			const sentMessage = `
+				<div class="bg-primary text-white rounded-pill p-2 align-self-end" style="max-width: 75%;">
+					${message}
+				</div>
+			`;
+			$('#notifications').append(sentMessage);
+			$('#notifications').scrollTop($('#notifications')[0].scrollHeight);
+
+			$.ajax({
+				url: '/Notification/SendIndividualNotification',
+				method: 'POST',
+				data: {
+					reciverUserId: reciverUserId,
+					message: message
+				},
+				success: function (response) {
+					console.log("Response received:", response);
+					$('#messageInput').val('');
+					if (response.message !== "Success") {
+						console.error("Server responded with error.");
+					}
+				},
+				error: function (err) {
+					console.error("Error sending message:", err);
+				}
+			});
+		}
+	</script>
+
+	<script>
+		function callSweetAlert(message)
+		{
+			Swal.fire("SweetAlert2 is working!");
+		}
+	</script>
+
+
+	<!-- Update the SignalR message handling script -->
+	<script>
+		const connection1 = new signalR.HubConnectionBuilder()
+			.withUrl("/callNotificationHub") // Your SignalR hub route
+			.build();
+
+		connection1.on("ReceiveMessage", function (notification) {
+			// Received messages - left side, white background
+			const chatMessage = `
+				<div class="bg-white rounded-pill p-2 pl-2  align-self-start" style="max-width: 75%;">
+					${notification}
+				</div>
+			`;
+			$('#notifications').append(chatMessage);
+			$('#notifications').scrollTop($('#notifications')[0].scrollHeight);
+		});
+
+		connection1.on("SendIndividualMessage", function (notification) {
+			// Sent messages - right side, blue background
+			const chatMessage = `
+				 <div class="bg-white rounded-pill border border-primary p-2  align-self-start" style="max-width: 75%;">
+					${notification}
+				</div>
+			`;
+			$('#notifications').append(chatMessage);
+			$('#notifications').scrollTop($('#notifications')[0].scrollHeight);
+		});
+
+		connection1.start().catch(function (err) {
+			console.error(err.toString());
+		});
+	</script>
+
+
+	<script>
+		function addNewConnection(newConnectionUserId, fullName){
+			 $('#addNewUserConnectionModal').modal('show');
+			 $('#connectionName').text(fullName);
+			 $('#connectionUserId').text(newConnectionUserId);
+
+		}
+
+
+		function sendConnectionRequest(currentUserId){
+			const fullName = $('#connectionName').text();
+			const newConnectionUserId = $('#connectionUserId').text();
+
+			if (fullName === "" || newConnectionUserId === "") return;
+
+			$.ajax({
+				url: '/UserConnection/AddConnection',
+				method: 'POST',
+				data: {
+					newConnectionUserId : newConnectionUserId,
+					currentUserId: currentUserId
+				},
+				success: function (response) {
+					$('#messageInput').val('');
+					if (response.message !== "Success") {
+						console.error("Server responded with error.");
+					}
+					fetchAllUser()
+				},
+				error: function (err) {
+					console.error("Error sending message:", err);
+				}
+			});
+		}
+	</script>
 
 
 
