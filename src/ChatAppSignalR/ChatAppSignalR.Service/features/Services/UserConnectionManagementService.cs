@@ -32,29 +32,54 @@ namespace ChatAppSignalR.Service.features.Services
 
             var connectedUser = new UserConnection
             {
+                Id = Guid.NewGuid().ToString(),
                 UserId = userId,
                 ConnectedUserId = connectedUserId,
                 ConnectedOn = DateTime.UtcNow
             };
-            await _unitOfWork.UserConnections.AddAsync(connectedUser);
+
+            try
+            {
+                await _unitOfWork.UserConnections.AddAsync(connectedUser);
+            }
+            catch(Exception ex)
+            {
+                var x = ex;
+            }
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<IList<UserConnection>> GetAllConnectedUserAsync(string userId)
+        public async Task<IList<User>> GetAllConnectedUserAsync(string userId)
         {
+            var connectedUsers = new List<User>();
+
             if (string.IsNullOrEmpty(userId))
                 throw new ArgumentException("User ID cannot be null or empty.");
             try
             {
-                var connectedUsers = await _unitOfWork.UserConnections
+                var connectedUserConnections = await _unitOfWork.UserConnections
                 .GetAllAsync(uc => uc.UserId == userId);
+
+
+                if (connectedUserConnections.Any())
+                {
+                    foreach (var connection in connectedUserConnections)
+                    {
+                        var connectedUser = await _unitOfWork.Users
+                            .GetAllAsync(u => u.IdentityUserId == connection.ConnectedUserId);
+                        if (connectedUser != null)
+                        {
+                            connectedUsers.AddRange(connectedUser);
+                        }
+                    }
+                }
             }
             catch(Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
 
-            return null;
+            return connectedUsers;
 
             
         }

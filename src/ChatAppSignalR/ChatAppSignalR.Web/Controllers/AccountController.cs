@@ -125,7 +125,7 @@ namespace ChatAppSignalR.Web.Controllers
 
                         // Save custom user data to your service
                         await _userManagementService.AddUserAsync(new User
-                        {
+                        {                           
                             IdentityUserId = user.Id,
                             FullName = user.FullName
                         });

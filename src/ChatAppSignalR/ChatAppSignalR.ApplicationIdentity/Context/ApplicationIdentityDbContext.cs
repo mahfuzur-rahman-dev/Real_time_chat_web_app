@@ -20,15 +20,6 @@ namespace ChatAppSignalR.ApplicationIdentity.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<User>()
-                .HasKey(uc => uc.IdentityUserId);
-
-            builder.Entity<User>()
-                .HasOne<ApplicationUser>()
-                .WithOne(au => au.User)
-                .HasForeignKey<User>(u => u.IdentityUserId)
-                .OnDelete(DeleteBehavior.NoAction);
         }
 
         public DbSet<User> Users { get; set; }

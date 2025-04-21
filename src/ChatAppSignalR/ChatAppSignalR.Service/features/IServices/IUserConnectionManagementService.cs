@@ -11,6 +11,6 @@ namespace ChatAppSignalR.Service.features.IServices
     public interface IUserConnectionManagementService
     {        
         Task AddUserConnectionAsync(string userId, string connectedUserId);
-        Task<IList<UserConnection>> GetAllConnectedUserAsync(string userId);
+        Task<IList<User>> GetAllConnectedUserAsync(string userId);
     }
 }

@@ -397,8 +397,7 @@
                                         <div class="d-flex align-items-center">
                                             <img  src="https://mehedihtml.com/chatbox/assets/img/user.png" class="rounded-circle me-2" alt="User">
                                             <div class="flex-grow-1">
-                                                <h6 class="mb-0">John Doe</h6>
-                                                <small class="text-muted">Last message preview...</small>
+                                                <h6 class="mb-0">${fullName}</h6>
                                             </div>
                                             <div class="bg-success rounded-circle" style="width: 10px; height: 10px;"></div>
                                         </div>
@@ -460,7 +459,12 @@
                             $userList.append(chatItem);
                         });
                     } else {
-                        $userList.append('<p>No users found.</p>');
+
+                        $userList.append(`
+                            <div class="d-flex justify-content-center align-items-center w-100" style="height: 300px;">
+                                <p class="text-center m-0">No users found.</p>
+                            </div>
+                        `);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -571,7 +575,7 @@
             if (fullName === "" || newConnectionUserId === "") return;
 
             $.ajax({
-                url: '/User/AddConnection',
+                url: '/UserConnection/AddConnection',
                 method: 'POST',
                 data: {
                     newConnectionUserId : newConnectionUserId,
