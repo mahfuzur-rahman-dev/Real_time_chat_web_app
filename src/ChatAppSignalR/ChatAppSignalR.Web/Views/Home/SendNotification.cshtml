@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Notification";
+}
+
+<h2>Send Notification</h2>
+<form method="post" asp-action="SendNotification">
+    <input type="text" name="title" placeholder="Title" required />
+    <input type="text" name="userId" placeholder="Title" required value="9090" hidden />
+    <br />
+    <input type="text" name="message" placeholder="Message" required />
+    <br />
+    <button type="submit">Send</button>
+</form>
+
+<hr />
+
+<h3>Notifications</h3>
+<ul id="notifications"></ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/callNotificationHub")
+        .build();
+
+    connection.on("SendNotification", function (notification) {
+        const li = document.createElement("li");
+        li.textContent = `${notification.title}: ${notification.message}`;
+        document.getElementById("notifications").appendChild(li);
+    });
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
+    });
+</script>

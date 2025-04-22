@@ -4,6 +4,7 @@ using ChatAppSignalR.ApplicationIdentity.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatAppSignalR.ApplicationIdentity.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    partial class ApplicationIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250409055937_AddUserConnectionTbl")]
+    partial class AddUserConnectionTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,21 +100,7 @@ namespace ChatAppSignalR.ApplicationIdentity.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ChatAppSignalR.Models.Entities.User", b =>
-                {
-                    b.Property<string>("IdentityUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdentityUserId");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ChatAppSignalR.Models.Others.UserConnection", b =>
+            modelBuilder.Entity("ChatAppSignalR.ApplicationIdentity.Others.UserConnection", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -121,15 +110,19 @@ namespace ChatAppSignalR.ApplicationIdentity.Migrations
 
                     b.Property<string>("ConnectedUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserConnections");
+                    b.HasIndex("ConnectedUserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserConnection");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -265,6 +258,25 @@ namespace ChatAppSignalR.ApplicationIdentity.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ChatAppSignalR.ApplicationIdentity.Others.UserConnection", b =>
+                {
+                    b.HasOne("ChatAppSignalR.ApplicationIdentity.Manager.ApplicationUser", "ConnectedUser")
+                        .WithMany("ConnectedToMe")
+                        .HasForeignKey("ConnectedUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ChatAppSignalR.ApplicationIdentity.Manager.ApplicationUser", "User")
+                        .WithMany("Connections")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ConnectedUser");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -314,6 +326,13 @@ namespace ChatAppSignalR.ApplicationIdentity.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatAppSignalR.ApplicationIdentity.Manager.ApplicationUser", b =>
+                {
+                    b.Navigation("ConnectedToMe");
+
+                    b.Navigation("Connections");
                 });
 #pragma warning restore 612, 618
         }
